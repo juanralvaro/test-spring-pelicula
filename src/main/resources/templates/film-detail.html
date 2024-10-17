@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Film detail</title>
+</head>
+<body>
+<h1>Film detail</h1>
+
+<div th:if="${film}">
+    <div>
+        <label for="film-id">ID:</label>
+        <span id="film-id" th:text="${film.id}"></span>
+    </div>
+
+    <div>
+        <label for="film-title">Title:</label>
+        <span id="film-title" th:text="${film.title}"></span>
+    </div>
+
+    <div>
+        <label for="film-director">Director:</label>
+        <span id="film-director" th:text="${film.director}"></span>
+    </div>
+
+    <div>
+        <label for="film-year">Year:</label>
+        <span id="film-year" th:text="${film.year}"></span>
+    </div>
+
+    <div>
+        <label for="film-rented">Rented:</label>
+        <span id="film-rented" th:text="${film.rented}"></span>
+    </div>
+</div>
+<div th:unless="${film}">
+    <p>The film doesn't exists</p>
+</div>
+
+
+</body>
+</html>
