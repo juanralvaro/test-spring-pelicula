@@ -45,7 +45,7 @@ public class FilmController {
     @GetMapping("/films/edit/{id}")
     public String getEditFilmForm(@PathVariable Long id, Model model) {
         filmRepository.findById(id)
-                .ifPresent((film -> model.addAttribute("film", film)));
+                .ifPresent(film -> model.addAttribute("film", film));
         return "film-form";
     }
 
@@ -69,5 +69,11 @@ public class FilmController {
         }
         return "redirect:/films";
     }
+	
+	//http://localhost:8080/films/delete/3
+	@GetMapping("/films/delete/{id}")
+	public String deleteFilm(@PathVariable Long id){
+		filmRepository.deleteById(id);
+		return "redirect:/films";
 
 }
