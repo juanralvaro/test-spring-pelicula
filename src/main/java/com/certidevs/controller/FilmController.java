@@ -72,8 +72,8 @@ public class FilmController {
 	
 	//http://localhost:8080/films/delete/3
 	@GetMapping("/films/delete/{id}")
-	public String deleteFilm(@PathVariable Long id){
-		filmRepository.deleteById(id);
-		return "redirect:/films";
-
+	public String deleteFilm(@PathVariable Long id) {
+        filmRepository.deleteById(id);
+        return "redirect:/films";
+    }
 }
