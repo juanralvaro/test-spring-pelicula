@@ -3,12 +3,15 @@ package com.certidevs.controller;
 import com.certidevs.model.Film;
 import com.certidevs.repository.FilmRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -45,7 +48,13 @@ public class FilmController {
     @GetMapping("/films/edit/{id}")
     public String getEditFilmForm(@PathVariable Long id, Model model) {
         filmRepository.findById(id)
-                .ifPresent(film -> model.addAttribute("film", film));
+                //.ifPresent(film -> model.addAttribute("film", film));
+                .ifPresentOrElse(
+                        film -> model.addAttribute("film", film),
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Film not found");
+                        });
+
         return "film-form";
     }
 
@@ -68,6 +77,22 @@ public class FilmController {
                     });
         }
         return "redirect:/films";
+    }
+
+    @PostMapping("films")
+    public String saveAndGoDetail(@ModelAttribute Film film) {
+
+        if (film.getId() != null) {
+            filmRepository.save(film);
+        } else {
+            filmRepository.findById(film.getId()).
+                    ifPresent(filmDB -> {
+                        BeanUtils.copyProperties(film, filmDB);
+                        filmRepository.save(filmDB);
+                    });
+        }
+        return "redirect:/films/" + film.getId();
+
     }
 	
 	//http://localhost:8080/films/delete/3
