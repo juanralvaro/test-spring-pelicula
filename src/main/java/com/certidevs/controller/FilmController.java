@@ -79,7 +79,7 @@ public class FilmController {
         return "redirect:/films";
     }
 
-    @PostMapping("films")
+/*    @PostMapping("films")
     public String saveAndGoDetail(@ModelAttribute Film film) {
 
         if (film.getId() != null) {
@@ -94,7 +94,7 @@ public class FilmController {
         return "redirect:/films/" + film.getId();
 
     }
-	
+*/
 	//http://localhost:8080/films/delete/3
 	@GetMapping("/films/delete/{id}")
 	public String deleteFilm(@PathVariable Long id) {
